@@ -92,7 +92,7 @@ class Bot(commands.Bot):
         await self.process_message(message)
 
     async def process_message(self, message: Message):
-        for user in self.users.values():
+        for user_number, user in self.users.items():
             # If this is our current_user, read out their message
             if message.author.name == user.current:
                 socketio.emit('message_send',
@@ -103,7 +103,7 @@ class Bot(commands.Bot):
                     }
                 )
                 if user.tts_enabled:
-                    self.tts_manager.text_to_audio(message.content)
+                    self.tts_manager.text_to_audio(message.content, user.voice_name, user.voice_style)
 
             # Add this chatter to the user pool
             if message.content == user.keypassphrase:
