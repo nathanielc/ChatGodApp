@@ -38,6 +38,7 @@ def adduser(value):
         value['tts_enabled'],
         value['keypassphrase'],
         value['voice_name'],
+        value['voice_style'],
     )
 
 @socketio.on("choose")
@@ -64,11 +65,12 @@ def choose_voice_style(value):
         print("Updating voice style to: " + value['voice_style'])
 
 class User:
-    def __init__(self, current, tts_enabled, keypassphrase, voice_name):
+    def __init__(self, current, tts_enabled, keypassphrase, voice_name, voice_style):
         self.current = current
         self.tts_enabled = tts_enabled
         self.keypassphrase = keypassphrase
         self.voice_name = voice_name
+        self.voice_style = voice_style
         self.pool = {}
         0
 
@@ -139,12 +141,13 @@ class Bot(commands.Bot):
         except Exception:
             return
 
-    def add_user(self, user_number, current, tts_enabled, keypassphrase, voice_name):
+    def add_user(self, user_number, current, tts_enabled, keypassphrase, voice_name, voice_style):
         user = User(
             current,
             tts_enabled,
             keypassphrase,
-            voice_name
+            voice_name,
+            voice_style
         )
         self.users[user_number] = user
 
